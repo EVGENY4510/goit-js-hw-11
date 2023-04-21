@@ -3,6 +3,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import NewsApiService from './news-service';
 import cardMarkup from './cardMarkup';
+import btnUp from './buttonScroll'
 
 const formEl = document.querySelector('.search-form');
 const galleryEl = document.querySelector('.gallery');
@@ -61,7 +62,9 @@ function clearGalleryEl() {
 }
 
 function onClick() {
-  newApiService.getPictures().then(toLoadMoreBtn);
+    
+    newApiService.getPictures().then(toLoadMoreBtn);
+    
 }
 function totalHitsMessage(totalHits) {
   Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
