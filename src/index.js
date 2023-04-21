@@ -8,6 +8,7 @@ import btnUp from './buttonScroll'
 const formEl = document.querySelector('.search-form');
 const galleryEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.load-more');
+const titleEl = document.querySelector('.title')
 
 const newApiService = new NewsApiService();
 let totalMessage = 40;
@@ -18,15 +19,21 @@ loadMoreBtnEl.addEventListener('click', onClick);
 btnDisabled();
 
 function onSubmit(e) {
-  e.preventDefault();
+    e.preventDefault();
+    
+   
+
 totalMessage = 40;
   clearGalleryEl();
   newApiService.query = e.currentTarget.elements.searchQuery.value.trim();
     if (newApiService.query === '') {
       btnDisabled();
-    return Notiflix.Notify.failure(
+     Notiflix.Notify.failure(
       'Oops input field is empty, please enter your request ;)'
-    );
+        );
+        titleEl.hidden = false;
+        titleEl.textContent = 'Oops input field is empty';
+        return;
   }
 
   newApiService.resetPage();
@@ -37,27 +44,26 @@ totalMessage = 40;
 
 function searchBtn(response) {
   const { totalHits, hits } = response.data;
-    console.log(newApiService.perPage);
-    console.log(totalHits);
-    console.log(newApiService.perPage >= totalHits);
+    
     if (newApiService.perPage >= totalHits) {
-        console.log('hello its mi')
         btnDisabled();
     
     }
   if (hits.length === 0) {
-    return Notiflix.Notify.warning(
+     Notiflix.Notify.warning(
       'Sorry, there are no images matching your search query. Please try again.'
-    );
+      );
+      titleEl.hidden = false;
+      titleEl.textContent = "We don't have those pictures."
+      return;
     }
-    
+    titleEl.hidden = true;
   totalHitsMessage(totalHits);
   loadMoreBtnEl.hidden = false;
   loadMoreBtnEl.textContent = 'load more';
   appendMarkup(hits);
     lightboxFoo();
     if (newApiService.perPage >= totalHits) {
-      console.log('hello its mi');
       btnDisabled();
     }
 }
