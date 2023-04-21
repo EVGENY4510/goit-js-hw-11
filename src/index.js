@@ -37,18 +37,29 @@ totalMessage = 40;
 
 function searchBtn(response) {
   const { totalHits, hits } = response.data;
-
+    console.log(newApiService.perPage);
+    console.log(totalHits);
+    console.log(newApiService.perPage >= totalHits);
+    if (newApiService.perPage >= totalHits) {
+        console.log('hello its mi')
+        btnDisabled();
+    
+    }
   if (hits.length === 0) {
     return Notiflix.Notify.warning(
       'Sorry, there are no images matching your search query. Please try again.'
     );
-  }
+    }
+    
   totalHitsMessage(totalHits);
   loadMoreBtnEl.hidden = false;
   loadMoreBtnEl.textContent = 'load more';
   appendMarkup(hits);
-
-  lightboxFoo();
+    lightboxFoo();
+    if (newApiService.perPage >= totalHits) {
+      console.log('hello its mi');
+      btnDisabled();
+    }
 }
 function lightboxFoo() {
   const lightbox = new SimpleLightbox('.gallery a', {
